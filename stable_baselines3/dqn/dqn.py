@@ -225,7 +225,7 @@ class DQN(OffPolicyAlgorithm):
         self.logger.record("train/n_updates", self._n_updates, exclude="tensorboard")
         self.logger.record("train/loss", np.mean(losses))
 
-    def boo():
+    def boo(self):
         print("This is a fork version!!!!!!1")
 
     def predict(
