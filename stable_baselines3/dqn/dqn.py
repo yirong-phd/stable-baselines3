@@ -189,7 +189,7 @@ class DQN(OffPolicyAlgorithm):
         self._update_learning_rate(self.policy.optimizer)
 
         losses = []
-        for _ in range(gradient_steps):
+        for g_step in range(gradient_steps):
             # Sample replay buffer
             replay_data = self.replay_buffer.sample(batch_size, env=self._vec_normalize_env)  # type: ignore[union-attr]
 
@@ -214,8 +214,8 @@ class DQN(OffPolicyAlgorithm):
             losses.append(loss.item())
 
             # Local update: Print out the net parameter for each graident steps
-            print("gradient steps: ", gradient_steps)
-            print("parameters: ", self.policy.parameters())
+            print("gradient steps: ", g_step)
+            #print("parameters: ", self.policy.parameters())
 
             # Optimize the policy
             self.policy.optimizer.zero_grad()
