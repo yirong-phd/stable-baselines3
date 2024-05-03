@@ -214,8 +214,8 @@ class DQN(OffPolicyAlgorithm):
             losses.append(loss.item())
 
             # Local update: Print out the net parameter for each graident steps
-            for p in self.policy.parameters():
-                print(p)
+            print("gradient steps: ", gradient_steps)
+            print("parameters: ", self.policy.parameters())
 
             # Optimize the policy
             self.policy.optimizer.zero_grad()
