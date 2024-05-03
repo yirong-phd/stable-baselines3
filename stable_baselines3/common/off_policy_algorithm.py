@@ -318,7 +318,7 @@ class OffPolicyAlgorithm(BaseAlgorithm):
             tb_log_name,
             progress_bar,
         )
-
+        print("off_policy_algorithm learn called!")
         callback.on_training_start(locals(), globals())
 
         assert self.env is not None, "You must set the environment before calling learn()"
@@ -355,6 +355,7 @@ class OffPolicyAlgorithm(BaseAlgorithm):
         Sample the replay buffer and do the updates
         (gradient descent and update target networks)
         """
+        print("off_policy_algorithm train called!")
         raise NotImplementedError()
 
     def _sample_action(
