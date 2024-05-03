@@ -216,7 +216,15 @@ class DQN(OffPolicyAlgorithm):
             # Local update: Print out the net parameter for each graident steps
             #print("gradient steps: ", g_step)
             #print("parameters: ", self.policy.parameters().shape)
-            print("parameters: ", self.get_parameters())
+            #print("parameters: ", self.get_parameters())
+            theta = self.get_parameters()
+            NN_param = []
+            for layer in [0,2,4]:
+                nn_param_W = theta['policy']['q_net.q_net.{}.weight'.format(layer)].numpy().reshape(-1).tolist()
+                NN_param.extend(nn_param_W)
+            NN_param = np.array(NN_param)
+
+            print("parameters: ", NN_param.shape)
 
             # Optimize the policy
             self.policy.optimizer.zero_grad()
