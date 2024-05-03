@@ -212,6 +212,10 @@ class DQN(OffPolicyAlgorithm):
             loss = F.smooth_l1_loss(current_q_values, target_q_values)
             losses.append(loss.item())
 
+            # Local update: Print out the net parameter for each graident steps
+            for p in self.policy.parameters():
+                print(p)
+
             # Optimize the policy
             self.policy.optimizer.zero_grad()
             loss.backward()
