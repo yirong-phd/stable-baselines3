@@ -230,7 +230,7 @@ class DQN(OffPolicyAlgorithm):
             print(NN_param.shape)
             print(self.target_weights.shape)
             #similarity_loss = F.mse_loss(NN_param, self.target_weights)
-            similarity_loss = torch.mean((NN_param - self.target_weights)**2)
+            similarity_loss = th.mean((NN_param - self.target_weights)**2)
             print("similarity loss: ", similarity_loss)
             losses.append(loss.item())
 
