@@ -227,8 +227,10 @@ class DQN(OffPolicyAlgorithm):
 
             # Compute Huber loss (less sensitive to outliers)
             loss = F.smooth_l1_loss(current_q_values, target_q_values)
-            similarity_loss = F.mse_loss(NN_param, self.target_weights)
-            print("similarity loss: ", similarity_loss)
+            print(NN_param.shape)
+            print(self.target_weights.shape)
+            #similarity_loss = F.mse_loss(NN_param, self.target_weights)
+            #print("similarity loss: ", similarity_loss)
             losses.append(loss.item())
 
             # Optimize the policy
