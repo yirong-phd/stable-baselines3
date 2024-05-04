@@ -137,6 +137,8 @@ class DQN(OffPolicyAlgorithm):
         # "epsilon" for the epsilon-greedy exploration
         self.exploration_rate = 0.0
 
+        self.target_weights = np.zeros(50400)
+
         if _init_setup_model:
             self._setup_model()
 
@@ -209,9 +211,6 @@ class DQN(OffPolicyAlgorithm):
             # Retrieve the q-values for the actions from the replay buffer
             current_q_values = th.gather(current_q_values, dim=1, index=replay_data.actions.long())
 
-            # Compute Huber loss (less sensitive to outliers)
-            loss = F.smooth_l1_loss(current_q_values, target_q_values)
-            losses.append(loss.item())
 
             # Local update: Print out the net parameter for each graident steps
             #print("gradient steps: ", g_step)
@@ -224,7 +223,12 @@ class DQN(OffPolicyAlgorithm):
                 NN_param.extend(nn_param_W)
             NN_param = np.array(NN_param)
 
-            print("parameters: ", NN_param.shape)
+            #print("parameters: ", NN_param.shape)
+
+            # Compute Huber loss (less sensitive to outliers)
+            loss = F.smooth_l1_loss(current_q_values, target_q_values)
+            print("loss: ",loss)
+            losses.append(loss.item())
 
             # Optimize the policy
             self.policy.optimizer.zero_grad()
