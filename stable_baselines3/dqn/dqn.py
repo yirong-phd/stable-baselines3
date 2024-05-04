@@ -229,9 +229,13 @@ class DQN(OffPolicyAlgorithm):
             loss = F.smooth_l1_loss(current_q_values, target_q_values)
             print(NN_param.shape)
             print(self.target_weights.shape)
-            #similarity_loss = F.mse_loss(NN_param, self.target_weights)
-            similarity_loss = th.mean((th.tensor(NN_param) - th.tensor(self.target_weights))**2)
+
+            #similarity_loss = np.inner(NN_param, self.target_weights)
+
+            similarity_loss = th.sum((th.tensor(NN_param) - th.tensor(self.target_weights))**2)
             print("similarity loss: ", similarity_loss)
+
+            loss += similarity_loss
             losses.append(loss.item())
 
             # Optimize the policy
