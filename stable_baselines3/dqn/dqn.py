@@ -216,8 +216,11 @@ class DQN(OffPolicyAlgorithm):
             #print("gradient steps: ", g_step)
             #print("parameters: ", self.policy.parameters().shape)
             l2 = 0
+            idx = 0
             for p in self.policy.parameters():
+                print("idx: ",idx)
                 l2 = l2 + p.abs().sum()
+                idx += 1
             #print("l2: ",l2)
             '''
             theta = self.get_parameters()
