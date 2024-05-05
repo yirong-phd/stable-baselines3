@@ -218,7 +218,7 @@ class DQN(OffPolicyAlgorithm):
             l2 = 0
             for p in self.policy.parameters():
                 l2 = l2 + p.abs().sum()
-            print("l2: ",l2) 
+            #print("l2: ",l2) 
             '''
             theta = self.get_parameters()
             NN_param = []
