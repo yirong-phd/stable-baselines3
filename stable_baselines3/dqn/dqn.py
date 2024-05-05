@@ -215,27 +215,30 @@ class DQN(OffPolicyAlgorithm):
             # Local update: Print out the net parameter for each graident steps
             #print("gradient steps: ", g_step)
             #print("parameters: ", self.policy.parameters().shape)
-            #print("parameters: ", self.get_parameters())
+            l2 = 0
+            for p in self.policy.parameters():
+                l2 = l2 + p.abs().sum()
+            print("l2: ",l2) 
+            '''
             theta = self.get_parameters()
             NN_param = []
             for layer in [0,2,4]:
                 nn_param_W = theta['policy']['q_net.q_net.{}.weight'.format(layer)].numpy().reshape(-1).tolist()
                 NN_param.extend(nn_param_W)
             NN_param = np.array(NN_param)
-
+            '''
             #print("parameters: ", NN_param.shape)
 
             # Compute Huber loss (less sensitive to outliers)
             loss = F.smooth_l1_loss(current_q_values, target_q_values)
-            print(NN_param.shape)
             print(self.target_weights.shape)
 
             #similarity_loss = np.inner(NN_param, self.target_weights)
 
-            similarity_loss = th.sum((th.tensor(NN_param) - th.tensor(self.target_weights))**2)
-            print("similarity loss: ", similarity_loss)
+            #similarity_loss = th.sum((th.tensor(NN_param) - th.tensor(self.target_weights))**2)
+            #print("similarity loss: ", similarity_loss)
 
-            loss += similarity_loss
+            #loss += similarity_loss
             losses.append(loss.item())
 
             # Optimize the policy
