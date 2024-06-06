@@ -242,7 +242,7 @@ class TD3Policy(BasePolicy):
         #return self.actor(observation)
         proto_action = self.actor(observation)
         print("proto_action",proto_action)
-        print("action_space: ", self.action_dim)
+        print("action_space: ", self.action_space)
         return proto_action
 
     def set_training_mode(self, mode: bool) -> None:
