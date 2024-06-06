@@ -240,7 +240,7 @@ class TD3Policy(BasePolicy):
         # Note: the deterministic deterministic parameter is ignored in the case of TD3.
         #   Predictions are always deterministic.
         #return self.actor(observation)
-        proto_action = actor(observation)
+        proto_action = self.actor(observation)
         print("proto_action",proto_action)
         print("action_space: ", self.action_dim)
         return proto_action
