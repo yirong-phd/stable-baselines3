@@ -239,7 +239,10 @@ class TD3Policy(BasePolicy):
     def _predict(self, observation: PyTorchObs, deterministic: bool = False) -> th.Tensor:
         # Note: the deterministic deterministic parameter is ignored in the case of TD3.
         #   Predictions are always deterministic.
-        return self.actor(observation)
+        #return self.actor(observation)
+        proto_action = actor(observation)
+        print("proto_action",proto_action)
+        print("action_space: ", self.action_dim)
 
     def set_training_mode(self, mode: bool) -> None:
         """
