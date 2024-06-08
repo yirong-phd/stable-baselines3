@@ -371,11 +371,12 @@ class SACPolicy(BasePolicy):
             print("min_qf_Wk", min_qf_Wk.shape)
             min_qf_W[:,k] = min_qf_Wk.numpy()[0]
         #print("W action: ", action_pts[np.argmax(min_qf_W)])
+        print("min_qf_W: ", min_qf_W)
         ind = np.argmax(min_qf_W, axis=-1)
         print("ind", ind)
         W_action = action_pts[np.arange(len(action_pts)), ind]
         print("W action: ", W_action)
-        return th.unsqueeze(W_action,0)
+        return th.unsqueeze(W_action,1)
 
     def _predict(self, observation: PyTorchObs, deterministic: bool = False) -> th.Tensor:
         #return self.actor(observation, deterministic)
