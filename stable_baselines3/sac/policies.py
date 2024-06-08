@@ -361,7 +361,7 @@ class SACPolicy(BasePolicy):
             print("action_list:", action_list)
             print("ordered_list: ", ordered_list)
             action_list[k] = ordered_list[k]
-            q_values_W = th.cat(self.critic(observation, th.tensor([action_list[k]])), dim=1)
+            q_values_W = th.cat(self.critic(observation, th.unsqueeze(th.tensor([action_list[k]]), 0)), dim=1)
             min_qf_W[k], _ = th.min(q_values_W, dim=1, keepdim=True).numpy()
         print("W action: ", action_pts[np.argmax(min_qf_W)])
         W_action = action_pts[np.argmax(min_qf_W)]
