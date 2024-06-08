@@ -351,7 +351,7 @@ class SACPolicy(BasePolicy):
     def forward(self, obs: PyTorchObs, deterministic: bool = False) -> th.Tensor:
         return self._predict(obs, deterministic=deterministic)
 
-    def W_action_convert(self, action):
+    def W_action_convert(self, observation, action):
         action_pts = th.tensor(np.linspace(-1,1,2**4))
         ordered_list = np.argsort(abs(action_pts-action).numpy()[0])
         action_list = np.zeros(4)
@@ -371,7 +371,7 @@ class SACPolicy(BasePolicy):
         proto_action = self.actor(observation, deterministic)
         print("proto action: ", proto_action)
 
-        return self.W_action_convert(proto_action)
+        return self.W_action_convert(observation, proto_action)
 
     def set_training_mode(self, mode: bool) -> None:
         """
