@@ -353,8 +353,8 @@ class SACPolicy(BasePolicy):
 
     def W_action_convert(self, observation, action): # careful with the batch-dim implementation
         batch_size = observation.shape[0]
-        print("observation: ", observation.shape)
-        print("action: ", action.shape)
+        print("observation: ", observation.dtype)
+        print("action: ", action.dtype)
         action_pts = th.tensor(np.tile(np.linspace(-1,1,2**4), (batch_size,1)))
         #ordered_list = np.argsort(abs(action_pts-action).numpy()[0])
         ordered_list = np.argsort(abs(action_pts-action).numpy(), axis=-1) #argsort over each row
@@ -369,7 +369,7 @@ class SACPolicy(BasePolicy):
             q_values_W = th.cat(self.critic(observation, th.unsqueeze(th.tensor(action_list[:,k],dtype=th.float), 1)), dim=1)
             min_qf_Wk, _ = th.min(q_values_W, dim=1, keepdim=True)
             print("min_qf_Wk", min_qf_Wk)
-            min_qf_W[:,k] = min_qf_Wk.numpy()[0]
+            min_qf_W[:,k] = min_qf_Wk.numpy().flatten() # Don't use the numpy()[0], it's wrong
         #print("W action: ", action_pts[np.argmax(min_qf_W)])
         print("min_qf_W: ", min_qf_W)
         ind = np.argmax(min_qf_W, axis=-1)
