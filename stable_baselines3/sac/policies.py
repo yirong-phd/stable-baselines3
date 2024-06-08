@@ -352,7 +352,10 @@ class SACPolicy(BasePolicy):
         return self._predict(obs, deterministic=deterministic)
 
     def W_action_convert(self, observation, action): # careful with the batch-dim implementation
-        action_pts = th.tensor(np.linspace(-1,1,2**4))
+        batch_size = observation.shape[0]
+        print("observation: ", observation.shape)
+        print("action: ", action.shape)
+        action_pts = th.tensor(np.tile(np.linspace(-1,1,2**4), (batch_size,1)))
         ordered_list = np.argsort(abs(action_pts-action).numpy()[0])
         action_list = np.zeros(4)
         min_qf_W = np.zeros(4)
