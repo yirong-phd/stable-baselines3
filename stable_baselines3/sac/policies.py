@@ -368,7 +368,7 @@ class SACPolicy(BasePolicy):
             #q_values_W = th.cat(self.critic(observation, th.unsqueeze(th.tensor(action_list[:,k],dtype=th.float), 0)), dim=1)
             q_values_W = th.cat(self.critic(observation, th.unsqueeze(th.tensor(action_list[:,k],dtype=th.float), 1)), dim=1)
             min_qf_Wk, _ = th.min(q_values_W, dim=1, keepdim=True)
-            print("min_qf_Wk", min_qf_Wk.shape)
+            print("min_qf_Wk", min_qf_Wk)
             min_qf_W[:,k] = min_qf_Wk.numpy()[0]
         #print("W action: ", action_pts[np.argmax(min_qf_W)])
         print("min_qf_W: ", min_qf_W)
