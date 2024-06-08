@@ -369,9 +369,11 @@ class SACPolicy(BasePolicy):
             q_values_W = th.cat(self.critic(observation, th.unsqueeze(th.tensor(action_list[:,k],dtype=th.float), 1)), dim=1)
             min_qf_Wk, _ = th.min(q_values_W, dim=1, keepdim=True)
             print("min_qf_Wk", min_qf_Wk.shape)
-            min_qf_W[k] = min_qf_Wk.numpy()
-        print("W action: ", action_pts[np.argmax(min_qf_W)])
-        W_action = action_pts[np.argmax(min_qf_W)]
+            min_qf_W[:,k] = min_qf_Wk.numpy()
+        #print("W action: ", action_pts[np.argmax(min_qf_W)])
+        ind = np.argmax(min_qf_W, axis=-1)
+        W_action = action_pts[np.arange(len(action_pts)), ind]
+        print("W action: ", W_action)
         return th.unsqueeze(W_action,0)
 
     def _predict(self, observation: PyTorchObs, deterministic: bool = False) -> th.Tensor:
