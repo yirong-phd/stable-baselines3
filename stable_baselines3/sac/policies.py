@@ -353,7 +353,7 @@ class SACPolicy(BasePolicy):
 
     def W_action_convert(self, action):
         action_pts = th.tensor(np.linspace(-1,1,2**4))
-        ordered_list = np.argsort(abs(action_pts-action).numpy())
+        ordered_list = np.argsort(abs(action_pts-action).numpy()[0])
         action_list = np.zeros(4)
         min_qf_W = np.zeros(4)
 
