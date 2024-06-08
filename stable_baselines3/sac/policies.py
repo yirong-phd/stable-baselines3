@@ -372,8 +372,11 @@ class SACPolicy(BasePolicy):
             min_qf_W[:,k] = min_qf_Wk.numpy().flatten() # Don't use the numpy()[0], it's wrong
         #print("W action: ", action_pts[np.argmax(min_qf_W)])
         #print("min_qf_W: ", min_qf_W)
+        print("proto_action", action)
+        print("action_list", action_list)
+
         ind = np.argmax(min_qf_W, axis=-1)
-        #print("ind", ind)
+        print("ind", ind)
         W_action = action_pts[np.arange(len(action_pts)), ind]
         #print("W action: ", W_action)
         return th.unsqueeze(W_action,1)
