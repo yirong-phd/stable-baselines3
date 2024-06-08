@@ -1,5 +1,7 @@
 from typing import Any, Dict, List, Optional, Tuple, Type, Union
 
+import numpy as np
+
 import torch as th
 from gymnasium import spaces
 from torch import nn
@@ -349,8 +351,25 @@ class SACPolicy(BasePolicy):
     def forward(self, obs: PyTorchObs, deterministic: bool = False) -> th.Tensor:
         return self._predict(obs, deterministic=deterministic)
 
+    def W_action_convert(self, action):
+        action_pts = th.tensor(np.linspace(-1,1,2**4))
+        ordered_list = np.argsort(abs(action_pts-action).numpy())
+        action_list = np.zeros(4)
+        min_qf_W = np.zeros(4)
+
+        for k in range(0,4):
+            action_list[k] = order_list[k]
+            q_values_W = th.cat(self.critic(observation, th.tensor([action_list[k]])), dim=1)
+            min_qf_W[k], _ = th.min(q_values_W, dim=1, keepdim=True).numpy()
+        print("W action: ", action_pts[np.argmax(min_qf_W)])
+        return action_pts[np.argmax(min_qf_W)]
+
     def _predict(self, observation: PyTorchObs, deterministic: bool = False) -> th.Tensor:
-        return self.actor(observation, deterministic)
+        #return self.actor(observation, deterministic)
+        proto_action = self.actor(observation, deterministic)
+        print("proto action: ", proto_action)
+
+        return self.W_action_convert(proto_action)
 
     def set_training_mode(self, mode: bool) -> None:
         """
