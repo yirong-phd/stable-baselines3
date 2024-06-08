@@ -356,16 +356,19 @@ class SACPolicy(BasePolicy):
         print("observation: ", observation.shape)
         print("action: ", action.shape)
         action_pts = th.tensor(np.tile(np.linspace(-1,1,2**4), (batch_size,1)))
-        ordered_list = np.argsort(abs(action_pts-action).numpy()[0])
-        action_list = np.zeros(4)
-        min_qf_W = np.zeros(4)
+        #ordered_list = np.argsort(abs(action_pts-action).numpy()[0])
+        ordered_list = np.argsort(abs(action_pts-action).numpy(), axis=-1) #argsort over each row
+        action_list = np.zeros((batch_size,4))
+        min_qf_W = np.zeros((batch_size,4))
 
         for k in range(0,4):
             print("action_list:", action_list)
             print("ordered_list: ", ordered_list)
-            action_list[k] = ordered_list[k]
-            q_values_W = th.cat(self.critic(observation, th.unsqueeze(th.tensor([action_list[k]],dtype=th.float), 0)), dim=1)
+            action_list[:,k] = ordered_list[:,k]
+            #q_values_W = th.cat(self.critic(observation, th.unsqueeze(th.tensor(action_list[:,k],dtype=th.float), 0)), dim=1)
+            q_values_W = th.cat(self.critic(observation, th.unsqueeze(th.tensor(action_list[:,k],dtype=th.float), 1)), dim=1)
             min_qf_Wk, _ = th.min(q_values_W, dim=1, keepdim=True)
+            print("min_qf_Wk", min_qf_Wk.shape)
             min_qf_W[k] = min_qf_Wk.numpy()
         print("W action: ", action_pts[np.argmax(min_qf_W)])
         W_action = action_pts[np.argmax(min_qf_W)]
