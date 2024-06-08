@@ -381,7 +381,7 @@ class SACPolicy(BasePolicy):
     def _predict(self, observation: PyTorchObs, deterministic: bool = False) -> th.Tensor:
         #return self.actor(observation, deterministic)
         proto_action = self.actor(observation, deterministic)
-        #print("proto action: ", proto_action)
+        print("proto action: ", proto_action)
 
         return self.W_action_convert(observation, proto_action)
 
