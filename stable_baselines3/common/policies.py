@@ -973,8 +973,8 @@ class ContinuousCritic(BaseModel):
         # when the features_extractor is shared with the actor
         with th.set_grad_enabled(not self.share_features_extractor):
             features = self.extract_features(obs, self.features_extractor)
-        print("features: ", features.shape)
-        print("actions: ", actions.shape)
+        #print("features: ", features.shape)
+        #print("actions: ", actions.shape)
         qvalue_input = th.cat([features, actions], dim=1)
         return tuple(q_net(qvalue_input) for q_net in self.q_networks)
 

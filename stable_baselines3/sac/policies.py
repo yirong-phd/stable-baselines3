@@ -353,8 +353,8 @@ class SACPolicy(BasePolicy):
 
     def W_action_convert(self, observation, action): # careful with the batch-dim implementation
         batch_size = observation.shape[0]
-        print("observation: ", observation.dtype)
-        print("action: ", action.dtype)
+        #print("observation: ", observation.dtype)
+        #print("action: ", action.dtype)
         action_pts = th.tensor(np.tile(np.linspace(-1,1,2**4), (batch_size,1)), dtype=th.float)
         #ordered_list = np.argsort(abs(action_pts-action).numpy()[0])
         ordered_list = np.argsort(abs(action_pts-action).numpy(), axis=-1) #argsort over each row
@@ -375,13 +375,13 @@ class SACPolicy(BasePolicy):
         ind = np.argmax(min_qf_W, axis=-1)
         #print("ind", ind)
         W_action = action_pts[np.arange(len(action_pts)), ind]
-        print("W action: ", W_action)
+        #print("W action: ", W_action)
         return th.unsqueeze(W_action,1)
 
     def _predict(self, observation: PyTorchObs, deterministic: bool = False) -> th.Tensor:
         #return self.actor(observation, deterministic)
         proto_action = self.actor(observation, deterministic)
-        print("proto action: ", proto_action)
+        #print("proto action: ", proto_action)
 
         return self.W_action_convert(observation, proto_action)
 

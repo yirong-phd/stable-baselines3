@@ -245,7 +245,7 @@ class SAC(OffPolicyAlgorithm):
             with th.no_grad():
                 # Select action according to policy
                 next_actions, next_log_prob = self.actor.action_log_prob(replay_data.next_observations)
-                print("next_actions: ", next_actions.shape)
+                #print("next_actions: ", next_actions.shape)
                 W_next_actions = self.policy.W_action_convert(replay_data.next_observations, next_actions)
                 # Compute the next Q values: min over all critics targets
                 #next_q_values = th.cat(self.critic_target(replay_data.next_observations, next_actions), dim=1)
