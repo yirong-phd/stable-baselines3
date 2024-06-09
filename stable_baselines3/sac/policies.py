@@ -356,6 +356,7 @@ class SACPolicy(BasePolicy):
         #print("observation: ", observation.dtype)
         #print("action: ", action.dtype)
         action_pts = th.tensor(np.tile(np.linspace(-1,1,2**4), (batch_size,1)), dtype=th.float)
+        print("action_pts", action_pts)
         #ordered_list = np.argsort(abs(action_pts-action).numpy()[0])
         ordered_list = np.argsort(abs(action_pts-action).numpy(), axis=-1) #argsort over each row
         action_list = np.zeros((batch_size,4))
@@ -377,7 +378,7 @@ class SACPolicy(BasePolicy):
 
         ind = np.argmax(min_qf_W, axis=-1)
         print("ind", ind)
-        W_action = action_pts[np.arange(len(action_pts)), ind]
+        W_action = action_pts[np.arange(len(action_pts)), action_list[ind]]
         #print("W action: ", W_action)
         return th.unsqueeze(W_action,1)
 
