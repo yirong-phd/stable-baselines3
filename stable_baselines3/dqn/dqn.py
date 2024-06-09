@@ -185,7 +185,7 @@ class DQN(OffPolicyAlgorithm):
 
     def train(self, gradient_steps: int, batch_size: int = 100) -> None:
         # Switch to train mode (this affects batch norm / dropout)
-        print("DQN.train called!")
+        #print("DQN.train called!")
         self.policy.set_training_mode(True)
         # Update learning rate according to schedule
         self._update_learning_rate(self.policy.optimizer)
@@ -215,12 +215,14 @@ class DQN(OffPolicyAlgorithm):
             # Local update: Print out the net parameter for each graident steps
             #print("gradient steps: ", g_step)
             #print("parameters: ", self.policy.parameters().shape)
+            '''
             l2 = 0
             idx = 0
             for p in self.policy.parameters():
                 print("idx: ",idx)
                 l2 = l2 + p.abs().sum()
                 idx += 1
+            '''
             #print("l2: ",l2)
             '''
             theta = self.get_parameters()
