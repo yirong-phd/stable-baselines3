@@ -359,10 +359,10 @@ class SACPolicy(BasePolicy):
         #print("action_pts", action_pts)
         #ordered_list = np.argsort(abs(action_pts-action).numpy()[0])
         ordered_list = np.argsort(abs(action_pts-action).numpy(), axis=-1) #argsort over each row
-        action_list = np.zeros((batch_size,4))
-        min_qf_W = np.zeros((batch_size,4))
+        action_list = np.zeros((batch_size,2**4))
+        min_qf_W = np.zeros((batch_size,2**4))
 
-        for k in range(0,4):
+        for k in range(0,2**4):
             #print("action_list:", action_list)
             #print("ordered_list: ", ordered_list)
             action_list[:,k] = ordered_list[:,k]
